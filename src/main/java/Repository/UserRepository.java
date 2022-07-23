@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserRepository {
     public static void createTable() throws SQLException {
@@ -46,7 +48,7 @@ public class UserRepository {
         if (rs.next()) {
             return true;
         } else {
-            System.out.println("\"" +username + "\" already exist");
+            System.out.println("\"" + username + "\" already exist");
             return false;
         }
     }
@@ -57,10 +59,10 @@ public class UserRepository {
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
         ps.setLong(1, id);
         int check = ps.executeUpdate();
-        if(check == 1 ){
+        if (check == 1) {
             System.out.println("\"" + deletedUser.getUsername() + "\" user are deleted");
-        return deleteUser(id);
-        }else {
+            return deleteUser(id);
+        } else {
             return null;
         }
     }
@@ -69,9 +71,9 @@ public class UserRepository {
         User foundById = new User();
         String sql = "select * from user_table where id = ?";
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
-        ps.setLong(1,id);
+        ps.setLong(1, id);
         ResultSet rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             foundById.setId(rs.getLong(1));
             foundById.setUsername(rs.getString(2));
             foundById.setNationalCode(rs.getString(3));
@@ -82,5 +84,59 @@ public class UserRepository {
 
     }
 
+    public User setPassword(User setUserPassword) {
+        return null;
+    }
+
+    public void updateUser(long id, User user) throws SQLException {
+        String sql = "update user_table username = ?, nationalcode = ?, birthday = ?, password = ?";
+        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
+        ps.setLong(1, user.getId());
+        ps.setString(2, user.getUsername());
+        ps.setString(3, user.getNationalCode());
+        ps.setString(4, user.getBirthday());
+        ps.setString(5, user.getPassword());
+        int check = ps.executeUpdate();
+        if (check == 1) {
+            System.out.println("\"" + foundById(id).getUsername() + "\" updated");
+        }
+    }
+
+    public List<User> findAllUser(String username) throws SQLException {
+        List<User> allUsers = new ArrayList<>();
+        String sql = "select * from user_table";
+        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            while (rs.next()) {
+                allUsers.add(new User(rs.getLong(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5)));
+            }
+        }else{
+            System.out.println("user not exist");
+        }
+        return allUsers;
+
+    }
+
+    public User foundByUsername(String username) throws SQLException {
+        User foundByUser = new User();
+        String sql = "select * from user_table where username = ?";
+        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            foundByUser.setId(rs.getLong(1));
+            foundByUser.setUsername(rs.getString(2));
+            foundByUser.setNationalCode(rs.getString(3));
+            foundByUser.setBirthday(rs.getString(4));
+            foundByUser.setPassword(rs.getString(5));
+
+        }
+        return foundByUser;
+    }
 }
 
