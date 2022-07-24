@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user_article" />
+        <module name="HW6" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="user_article" options="--add-modules java.sql,java.base" />
+      <module name="HW6" options="--add-modules java.sql,java.base" />
     </option>
   </component>
 </project>

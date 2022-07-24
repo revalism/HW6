@@ -19,6 +19,10 @@ public class Article {
         this.user_id = user_id;
     }
 
+    public Article() {
+
+    }
+
     public long getId() {
         return id;
     }
