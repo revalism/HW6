@@ -6,6 +6,7 @@ public class User {
     private String nationalCode;
     private String birthday;
     private String password;
+    private boolean firstLogin;
 
     public User(long id, String username, String nationalCode, String birthday, String password) {
         this.id = id;
@@ -13,6 +14,14 @@ public class User {
         this.nationalCode = nationalCode;
         this.birthday = birthday;
         this.password = password;
+    }
+
+    public boolean isFirstLogin() {
+        return firstLogin;
+    }
+
+    public void setFirstLogin(boolean firstLogin) {
+        this.firstLogin = firstLogin;
     }
 
     public User() {
