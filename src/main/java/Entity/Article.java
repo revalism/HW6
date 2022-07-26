@@ -1,22 +1,34 @@
 package Entity;
 
+import org.w3c.dom.Text;
+
 public class Article {
     private long id;
     private String title;
     private String brief;
+    private String Text;
     private String content;
     private String createDate;
     private boolean isPublished;
     private long user_id;
 
-    public Article(long id, String title, String brief, String content, String createDate, boolean isPublished, long user_id) {
+    public Article(long id, String title, String brief, String text, String content, String createDate, boolean isPublished, long user_id) {
         this.id = id;
         this.title = title;
         this.brief = brief;
+        this.Text = text;
         this.content = content;
         this.createDate = createDate;
         this.isPublished = isPublished;
         this.user_id = user_id;
+    }
+
+    public String getText() {
+        return Text;
+    }
+
+    public void setText(String text) {
+        Text = text;
     }
 
     public Article() {

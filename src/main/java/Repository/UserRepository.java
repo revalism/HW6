@@ -25,7 +25,8 @@ public class UserRepository {
 
     public User createdUser(User user) throws SQLException, ParseException {
         if (!isUsernameExist(user.getUsername())) {
-            String sql = "insert into user_table(username, nationalCode, birthday, password)values (?,?,to_date(?,'yyy/mm/dd'),?)";
+            String sql = "insert into user_table(username, nationalCode, birthday, password)" +
+                    "values (?,?,to_date(?,'yyy/mm/dd'),?)";
             PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getNationalCode());

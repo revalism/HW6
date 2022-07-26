@@ -1,5 +1,6 @@
 package Service;
 
+import Repository.ArticleRepository;
 import Repository.UserRepository;
 import Service.menu.UserMenu;
 
@@ -14,8 +15,6 @@ public class ApplicationConstant {
     private static UserRepository userRepository= new UserRepository();
     private static Connection connection = new DBHelper().connect();
     public static Connection getConnection() {return connection;}
-
-
     public static Scanner input = new Scanner(System.in);
     public  static Scanner getInput(){return input;}
     public static UserRepository getUserRepository(){return userRepository;}
@@ -28,5 +27,6 @@ public class ApplicationConstant {
         Matcher m = p.matcher(password);
         return  m.matches();
     }
+    private static ArticleRepository articleRepository = new ArticleRepository();
 
 }
