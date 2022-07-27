@@ -1,7 +1,5 @@
 package Entity;
 
-import org.w3c.dom.Text;
-
 public class Article {
     private long id;
     private String title;
@@ -22,6 +20,7 @@ public class Article {
         this.isPublished = isPublished;
         this.user_id = user_id;
     }
+
 
     public String getText() {
         return Text;
@@ -87,7 +86,7 @@ public class Article {
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
+    public void setUser_id(long user_id, long id) {
         this.user_id = user_id;
     }
 

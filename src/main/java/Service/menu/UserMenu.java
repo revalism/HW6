@@ -1,14 +1,20 @@
 package Service.menu;
 
+import Entity.Article;
 import Entity.User;
+import Repository.ArticleRepository;
+import Repository.UserRepository;
 import Service.ApplicationConstant;
 import Service.Printer;
 import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Objects;
 
 public class UserMenu {
-    public void runFirstMenu() throws SQLException {
+    public void runFirstMenu() throws SQLException, ParseException {
         System.out.println("WELCOME");
         while (true) {
             Printer.print(ApplicationConstant.USER_MENU);
@@ -34,14 +40,14 @@ public class UserMenu {
         boolean usernameIsCorrect = false;
         User user = new User();
         System.out.print("Enter your username for login : ");
-        String inputUsername = ApplicationConstant.getInput().nextLine();
-        if(ApplicationConstant.getUserRepository().isUsernameExist(inputUsername)){
+        String inputUsername = ApplicationConstant.getInput().next();
+        if (ApplicationConstant.getUserRepository().isUsernameExist(inputUsername)) {
             usernameIsCorrect = true;
             if (!user.isFirstLogin()) {
                 System.out.print("Enter your national code : ");
                 while (true) {
                     System.out.print("Enter your password for set : ");
-                    String inputPassword1 = ApplicationConstant.getInput().nextLine();
+                    String inputPassword1 = ApplicationConstant.getInput().next();
                     if (ApplicationConstant.isValidPassword(inputPassword1)) {
                         System.out.print("Again enter your password for set : ");
                         String inputPassword2 = ApplicationConstant.getInput().nextLine();
@@ -50,7 +56,7 @@ public class UserMenu {
                             user.setFirstLogin(true);
                         }
                         break;
-                    }  else {
+                    } else {
                         System.out.println("your password not enough strong try again");
                     }
                 }
@@ -58,34 +64,63 @@ public class UserMenu {
         }
         System.out.print("Enter your password for login : ");
         String password = ApplicationConstant.getInput().nextLine();
-        if(user.getPassword().equals(password) && usernameIsCorrect){
+        if (user.getPassword().equals(password) && usernameIsCorrect) {
             System.out.println("Welcome");
-        }else {
+        } else {
             System.out.println("your username or password isn't correct");
         }
     }
-    public void signup() throws SQLException {
-        User user = new User();
-        String username;
-        while (true){
-            System.out.print("Enter username : ");
-            username = ApplicationConstant.getInput().nextLine();
-            if(ApplicationConstant.getUserRepository().isUsernameExist(username)){
-                continue;
-            }else {
-                user.setUsername(username);
-                break;
-            }
-        }
-        System.out.print("Enter your firstname : ");
-        String nationalCode = ApplicationConstant.getInput().next();
-        user.setNationalCode(nationalCode);
-        System.out.print("Enter your birth day (YYYY/MM/DD) : ");
-        String date = ApplicationConstant.getInput().next();
-        user.setBirthday(date);
+
+    public void afterLogin(User user) {
+
     }
 
-    public void viewArticles(){
+    public void signup() throws SQLException, ParseException {
         User user = new User();
+        UserRepository userRepository = new UserRepository();
+
+        while (true) {
+            System.out.print("Enter username : ");
+            String username = ApplicationConstant.getInput().next();
+            if (!ApplicationConstant.getUserRepository().isUsernameExist(username)) {
+                user.setUsername(username);
+                System.out.println();
+                System.out.print("Enter your national code : ");
+                String nationalCode = ApplicationConstant.getInput().next();
+                user.setNationalCode(nationalCode);
+                user.setPassword(nationalCode);
+                System.out.print("Enter your birthday (yyy/mm/dd) : ");
+                String date = ApplicationConstant.getInput().next();
+                user.setBirthday(date);
+                userRepository.createdUser(user);
+
+                break;
+            } else {
+                System.out.println("this username is exist");
+                continue;
+            }
+
+        }
+
+
+//        System.out.print("Enter your firstname : ");
+//        String nationalCode = ApplicationConstant.getInput().next();
+//        user.setNationalCode(nationalCode);
+//        System.out.print("Enter your birth day (YYYY/MM/DD) : ");
+//        String date = ApplicationConstant.getInput().next();
+//        user.setBirthday(date);
+    }
+
+    public void viewArticles() throws SQLException {
+        List<Article> articles = ArticleRepository.allOfArticle();
+        for (int i = 0; i < ArticleRepository.allOfArticle().size(); i++) {
+            Article article = articles.get(i);
+            System.out.print(article.getId());
+            System.out.println(" - " + article.getTitle());
+        }
+        System.out.print("now enter id for get this text : ");
+        int input = ApplicationConstant.getInput().nextInt();
+        Article articleChoose = articles.get(input);
+        System.out.println(articleChoose.getText());
     }
 }

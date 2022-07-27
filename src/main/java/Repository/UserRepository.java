@@ -17,7 +17,7 @@ public class UserRepository {
                 " id serial primary key not null," +
                 " username varchar(255) unique not null," +
                 " nationalCode varchar(15)," +
-                " birthday Date not null," +
+                " birthday Date," +
                 " password varchar(255) not null)";
         Statement stm = ApplicationConstant.getConnection().createStatement();
         stm.executeUpdate(sql);
@@ -36,7 +36,7 @@ public class UserRepository {
             if (ps.getGeneratedKeys().next()) {
                 user.setId(ps.getGeneratedKeys().getLong(1));
             }
-            System.out.println("user : " + user.getUsername() + " created successfully.");
+            //System.out.println("user : " + user.getUsername() + " created successfully.");
         }
         return user;
     }
@@ -49,7 +49,7 @@ public class UserRepository {
         if (rs.next()) {
             return true;
         } else {
-            System.out.println("\"" + username + "\" already exist");
+            //System.out.println("\"" + username + "\" already exist");
             return false;
         }
     }
@@ -74,14 +74,7 @@ public class UserRepository {
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
         ps.setLong(1, id);
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            foundById.setId(rs.getLong(1));
-            foundById.setUsername(rs.getString(2));
-            foundById.setNationalCode(rs.getString(3));
-            foundById.setBirthday(rs.getString(4));
-            foundById.setPassword(rs.getString(5));
-        }
-        return foundById;
+        return getUser(foundById, rs);
 
     }
 
@@ -129,6 +122,10 @@ public class UserRepository {
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
         ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
+        return getUser(foundByUser, rs);
+    }
+
+    private User getUser(User foundByUser, ResultSet rs) throws SQLException {
         if (rs.next()) {
             foundByUser.setId(rs.getLong(1));
             foundByUser.setUsername(rs.getString(2));

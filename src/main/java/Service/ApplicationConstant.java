@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ApplicationConstant {
-    public static final String[] USER_MENU= {"Login", "Sign up", "Exit"};
+    public static final String[] USER_MENU= {"Login", "Sign up", "Articles", "Exit"};
     public static UserMenu usermenu = new UserMenu();
     private static UserRepository userRepository= new UserRepository();
     private static Connection connection = new DBHelper().connect();
