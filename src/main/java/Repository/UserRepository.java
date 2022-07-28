@@ -81,15 +81,16 @@ public class UserRepository {
     public User setPassword(User setUserPassword) {
         return null;
     }
-
+///////////////////////bug/////////////////////////
     public void updateUser(long id, User user) throws SQLException {
-        String sql = "update user_table username = ?, nationalcode = ?, birthday = ?, password = ?";
+        String sql = "update user_table set username = ?, nationalcode = ?, birthday = to_date(?,'yyy/mm/dd'), password = ? whrere id =?";
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
         ps.setLong(1, user.getId());
         ps.setString(2, user.getUsername());
         ps.setString(3, user.getNationalCode());
         ps.setString(4, user.getBirthday());
         ps.setString(5, user.getPassword());
+        ps.setLong(6, id);
         int check = ps.executeUpdate();
         if (check == 1) {
             System.out.println("\"" + foundById(id).getUsername() + "\" updated");

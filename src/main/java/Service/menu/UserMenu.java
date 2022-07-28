@@ -13,6 +13,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 
+import static java.lang.System.exit;
+
 public class UserMenu {
     public void runFirstMenu() throws SQLException, ParseException {
         System.out.println("WELCOME");
@@ -29,6 +31,9 @@ public class UserMenu {
                     break;
                 case 3:
                     viewArticles();
+                    break;
+                case 4:
+                    exit(1);
                     break;
 
             }
