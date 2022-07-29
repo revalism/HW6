@@ -81,10 +81,10 @@ public class ArticleRepository {
         return article;
     }
 
-    public static void modifyText(Article articleText, User user) throws SQLException {
+    public static void modifyText(String input, User user) throws SQLException {
         String sql = "update article_table text = ? where user_id = ?";
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
-        ps.setString(1, articleText.getText());
+        ps.setString(1, input);
         ps.setLong(2, user.getId());
         int check = ps.executeUpdate();
         if (check == 1) {
@@ -117,6 +117,19 @@ public class ArticleRepository {
             article.setId(ps.getGeneratedKeys().getLong(1));
         }
         System.out.println("Dear " + user.getUsername() + " your " + article.getTitle() + " uploaded");
+    }
+
+    public void viewArticles() throws SQLException {
+        List<Article> articles = ArticleRepository.allOfArticle();
+        for (int i = 0; i < ArticleRepository.allOfArticle().size(); i++) {
+            Article article = articles.get(i);
+            System.out.print(article.getId());
+            System.out.println(" - " + article.getTitle());
+        }
+        System.out.print("now enter id for get this text : ");
+        int input = ApplicationConstant.getInput().nextInt();
+        Article articleChoose = articles.get(input);
+        System.out.println(articleChoose.getText());
     }
 
 

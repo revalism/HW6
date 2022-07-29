@@ -97,6 +97,29 @@ public class UserRepository {
         }
     }
 
+    public User returnIDUser(String username) throws SQLException {
+        User user=new User();
+        String sql = "select * from user_table where username = ?";
+        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
+        ps.setString(1, username);
+
+
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            user.setId(rs.getLong(1));
+            user.setUsername(rs.getString(2));
+            user.setNationalCode(rs.getString(3));
+            user.setBirthday(rs.getString(4));
+            user.setPassword(rs.getString(5));
+
+
+        } else {
+            System.out.println("not fount");
+        }
+        return user  ;
+    }
     public List<User> findAllUser(String username) throws SQLException {
         List<User> allUsers = new ArrayList<>();
         String sql = "select * from user_table";

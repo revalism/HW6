@@ -11,7 +11,7 @@ import java.text.ParseException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ParseException {
-        ArticleRepository.createTable();
+//        ArticleRepository.createTable();
 ////        ApplicationConstant.getConnection();
 ////        UserRepository.createTable();
 //        User user = new User(1, "sadasdas", "0054385150", "1999/4/4", "12345");
